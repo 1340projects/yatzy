@@ -10,7 +10,10 @@ body {
   background: linear-gradient(135deg, #1f2937, #111827);
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #f3f4f6;
-  padding: 24px 12px;
+  padding: calc(24px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right))
+    calc(24px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .app {
@@ -38,25 +41,29 @@ h1 {
 .dice-row {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 16px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .die {
-  width: 56px;
-  height: 56px;
+  --die-size: clamp(40px, 13.5vw, 56px);
+  width: var(--die-size);
+  height: var(--die-size);
   background: #f9fafb;
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  padding: 8px;
-  gap: 2px;
+  padding: calc(var(--die-size) * 0.14);
+  gap: calc(var(--die-size) * 0.035);
   cursor: pointer;
   border: 3px solid transparent;
   transition: transform 0.15s ease, border-color 0.15s ease;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .die:hover {
@@ -86,8 +93,8 @@ h1 {
 }
 
 .pip {
-  width: 8px;
-  height: 8px;
+  width: 78%;
+  aspect-ratio: 1 / 1;
   margin: auto;
   border-radius: 50%;
   background: transparent;
@@ -113,6 +120,7 @@ button {
   font-size: 15px;
   cursor: pointer;
   transition: background 0.15s ease;
+  touch-action: manipulation;
 }
 
 button:hover:not(:disabled) {
